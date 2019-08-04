@@ -308,6 +308,16 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
             return False
         return True
 
+    def is_exist_message(self, message):
+        """当前页面是否有某条文本消息记录"""
+        xpath = "//android.widget.TextView[@text='%s']" % message
+        tmp = (MobileBy.XPATH, xpath)
+        el = self.get_elements(tmp)
+        print(el[0].text)
+        if len(el) > 0:
+            return True
+        return False
+
     @TestLogger.log()
     def click_location(self):
         """点击位置 """
@@ -321,4 +331,18 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
         return self.page_should_contain_element(self.__class__.__locators["表情按钮"])
         return self.page_should_contain_element(self.__class__.__locators["更多"])
         return self.page_should_contain_element(self.__class__.__locators["设置"])
+	
+	@TestLogger.log()
+    def long_press_message(self, message):
+        """长按某条消息"""
+        xpath = "//android.widget.TextView[@text='%s']" % message
+        tmp = (MobileBy.XPATH, xpath)
+        el = self.get_elements(tmp)
+        self.press(el[0])
 
+    @TestLogger.log('点击转发')
+    def click_transpond(self):
+        xpath = "//android.widget.TextView[@text='转发']"
+        tmp = (MobileBy.XPATH, xpath)
+        self.click_element(tmp)
+	@TestLogger.log()
